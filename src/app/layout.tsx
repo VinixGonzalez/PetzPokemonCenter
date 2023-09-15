@@ -1,9 +1,12 @@
+import { Inter } from "next/font/google";
 import "../styles/globals.css";
+
+const mulish = Inter({ subsets: ["latin"] });
 
 export default function Root({ children }: { children: React.ReactNode }) {
   return (
     <html lang={"pt"}>
-      <body>{children}</body>
+      <body className={`${mulish.className}`}>{children}</body>
     </html>
   );
 }

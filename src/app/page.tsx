@@ -1,5 +1,13 @@
 import React from "react";
 
+/**
+ * @jest-environment jsdom
+ */
+
 export default function HomePage() {
-  return <div>Home</div>;
+  return (
+    <div>
+      <h1>welcome to pokecenter</h1>
+    </div>
+  );
 }

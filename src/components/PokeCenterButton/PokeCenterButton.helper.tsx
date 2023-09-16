@@ -22,7 +22,7 @@ export const usePokeCenterButtonHelper = (animationTime: number = 5000) => {
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [controls]);
+  }, [animationTime, controls]);
 
   return {
     buttonVariants,

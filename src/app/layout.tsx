@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "../styles/globals.css";
 import { Providers } from "./providers";
 import Header from "@/components/Header/Header";
+import Footer from "@/components/Footer/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,7 +13,7 @@ export default function Root({ children }: { children: React.ReactNode }) {
         <Providers>
           <Header />
           {children}
-          <footer className="bg-slate-950 mt-auto">test</footer>
+          <Footer />
         </Providers>
       </body>
     </html>

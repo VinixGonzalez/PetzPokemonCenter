@@ -1,19 +1,30 @@
-"use client";
-
-import React, { useState } from "react";
+import React from "react";
 import { PokeCenterButton } from "../PokeCenterButton/PokeCenterButton";
 import MobileDrawer from "../Drawer/MobileDrawer";
+import Link from "next/link";
 
-function Header() {
+export default function Header() {
   return (
-    <header className="w-full bg-white flex flex-wrap items-center px-12 py-5">
-      <PokeCenterButton text="Centro Pokémon" />
+    <header>
+      <nav className="w-full bg-white px-12 py-5 flex flex-wrap items-center justify-between">
+        <PokeCenterButton text="Centro Pokémon" />
 
-      <div className="sm:hidden ml-auto">
-        <MobileDrawer />
-      </div>
+        <div className="sm:hidden ml-auto">
+          <MobileDrawer />
+        </div>
+
+        <div className="flex items-center gap-7/5">
+          <Link href={"/quem-somos"} className="text-sm font-normal">
+            Quem Somos
+          </Link>
+          <Link
+            href={"/agendar-consulta"}
+            className="bg-customRed py-3 px-6 rounded-full text-white"
+          >
+            Agendar Consulta
+          </Link>
+        </div>
+      </nav>
     </header>
   );
 }
-
-export default Header;

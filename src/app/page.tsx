@@ -3,11 +3,8 @@ import React from "react";
 
 export default function HomePage() {
   return (
-    <div>
-      <h1>welcome to pokecenter</h1>
-      <div>
-        <PokeCenterButton text="Centro Pokémon" animationTime={5000} />
-      </div>
-    </div>
+    <main data-testid="main-home" className="bg-home flex-1">
+      <div>test</div>
+    </main>
   );
 }

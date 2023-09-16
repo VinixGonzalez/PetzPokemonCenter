@@ -9,10 +9,8 @@ describe("HomePage", () => {
   it("Should render without crash", () => {
     render(<HomePage />);
 
-    const header = screen.getByRole("heading", {
-      name: /welcome to pokecenter/i,
-    });
+    const main = screen.getByTestId("main-home");
 
-    expect(header).toBeInTheDocument();
+    expect(main).toBeInTheDocument();
   });
 });

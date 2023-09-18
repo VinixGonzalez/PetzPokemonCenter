@@ -13,7 +13,7 @@ export default function Header() {
           <MobileDrawer />
         </div>
 
-        <div className="flex items-center gap-7/5">
+        <div className="hidden sm:flex items-center gap-7/5">
           <Link href={"/quem-somos"} className="text-sm font-normal">
             Quem Somos
           </Link>

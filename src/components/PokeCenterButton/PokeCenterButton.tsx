@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import whitePokeball from "@/../public/images/white-pokeball.svg";
 import { usePokeCenterButtonHelper } from "./PokeCenterButton.helper";
+import Link from "next/link";
 
 interface PokeCenterButtonProps {
   text: string;
@@ -34,10 +35,10 @@ export const PokeCenterButton: React.FC<PokeCenterButtonProps> = ({
       className={`bg-customRed flex items-center rounded-full pl-3`}
       layout
     >
-      <button className="flex items-center space-x-2">
+      <Link href={"/"} className="flex items-center space-x-2">
         <Image src={whitePokeball} alt="white pokeball icon" />
         {showText && <p className={`whitespace-nowrap text-white`}>{text}</p>}
-      </button>
+      </Link>
     </motion.div>
   );
 };

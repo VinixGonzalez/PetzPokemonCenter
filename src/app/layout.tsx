@@ -1,5 +1,7 @@
 import { Inter } from "next/font/google";
 import "../styles/globals.css";
+import "react-toastify/dist/ReactToastify.css";
+
 import { Providers } from "./providers";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";

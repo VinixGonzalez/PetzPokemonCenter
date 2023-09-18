@@ -32,8 +32,8 @@ export default function SubHeader({
         <CustomBreadcrumb crumbList={crumbList as CrumbList} />
       )}
 
-      <h1 className="text-2xbase font-bold ">{text}</h1>
-      {subText && <p className="text-sm ">{subText}</p>}
+      <h1 className="text-2xl sm:text-2xbase font-bold ">{text}</h1>
+      {subText && <p className="text-xs sm:text-sm">{subText}</p>}
     </section>
   );
 }

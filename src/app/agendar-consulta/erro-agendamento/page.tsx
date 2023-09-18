@@ -1,8 +1,18 @@
+"use client";
+
 import AgendarConsultaForm from "@/components/Forms/AgendarConsulaForm/AgendarConsultaForm";
 import SubHeader from "@/components/SubHeader/SubHeader";
+import { useAgendarConsultaStore } from "@/store/agendarConsultaStore";
+import { redirect } from "next/navigation";
 import React from "react";
 
-export default function AgendarConsultaPage() {
+export default function ErroAgendamentoPage() {
+  const { agendamentoStatus } = useAgendarConsultaStore();
+
+  if (agendamentoStatus !== "error") {
+    redirect("/agendar-consulta");
+  }
+
   return (
     <main className="flex flex-col">
       <SubHeader
@@ -17,16 +27,8 @@ export default function AgendarConsultaPage() {
         ]}
         showBreadcrumb
       />
-      <section
-        id="agendar-consulta-content"
-        className="flex flex-col flex-1 max-w-7xl gap-12 mx-auto p-8 text-[#1d1d1d]"
-      >
-        <h2 className="text-xl sm:text-2xl font-semibold text-center">
-          Preencha o formulário abaixo para agendar sua consulta
-        </h2>
 
-        <AgendarConsultaForm />
-      </section>
+      <div>erro</div>
     </main>
   );
 }

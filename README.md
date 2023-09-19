@@ -1,10 +1,16 @@
 # 🐾 Petz Poke Center
 
 Seja bem-vindo ao projeto Petz Pokecenter, o principal centro de recuperação para seus Pokémons!
+
 Este projeto foi desenvolvido como parte de um desafio técnico e serve como um bom exemplo de uma aplicação front-end moderna, responsiva e eficiente.
+
 Foram utilizados alguns padrões de design como: Factory, Compose/container, TDD, modularização e separação de responsabilidades.
 
 O projeto original foi atualizado para comportar as últimas features do Nextjs como App Folder, otimizações etc.
+
+O projeto pode ser acessado através deste link:
+[Petz Pokémon Center](https://petz-pokemon-center.vercel.app/).
+
 
 ## Setup
 
@@ -43,3 +49,5 @@ Vinícius Gonzalez
 [LinkedIn](https://www.linkedin.com/in/vinicius-gonzalez-84b60a152/).
 
 email: vinix74@hotmail.com
+
+

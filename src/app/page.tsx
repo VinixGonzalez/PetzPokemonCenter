@@ -1,4 +1,3 @@
-import { PokeCenterButton } from "@/components/PokeCenterButton/PokeCenterButton";
 import React from "react";
 
 export default function HomePage() {

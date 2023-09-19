@@ -1,9 +1,12 @@
-import { getDatasAtendimentoList } from "@/services/getDatasAtendimentoList";
-import { getHorariosAtendimentoList } from "@/services/getHorariosAtendimentoList";
-import { getPokeCidades } from "@/services/getPokeCidades";
-import { getPokeRegioes } from "@/services/getPokeRegioes";
-import { getPokemonsList } from "@/services/getPokemonsList";
-import { setAgendamentoConsulta } from "@/services/setAgendamentoConsulta";
+import {
+  getDatasAtendimentoList,
+  getHorariosAtendimentoList,
+  getPokeCidades,
+  getPokeRegioes,
+  getPokemonsList,
+  setAgendamentoConsulta,
+} from "@/services";
+
 import {
   getRandomLevelHelper,
   upperCaseFirstLetterHelper,

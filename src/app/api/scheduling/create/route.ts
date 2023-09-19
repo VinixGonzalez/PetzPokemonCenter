@@ -10,7 +10,7 @@ export async function POST(request: Request) {
 
   // Persistência para algum banco de dados
 
-  const isSaved = false; // trocar para simular o redirecionamento das páginas
+  const isSaved = true; // trocar para simular o redirecionamento das páginas
 
   if (!isSaved) {
     return NextResponse.json(

@@ -1,7 +1,3 @@
-interface GetHorariosAtendimentoListReponse {
-  dateStringArray: Array<string>;
-}
-
 export const getHorariosAtendimentoList = async (date: string) => {
   try {
     const res = await fetch(`/api/scheduling/time`, {

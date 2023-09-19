@@ -11,10 +11,10 @@ interface PokeCenterButtonProps {
   animationTime?: number;
 }
 
-export const PokeCenterButton: React.FC<PokeCenterButtonProps> = ({
+export default function PokeCenterButton({
   text,
   animationTime,
-}) => {
+}: PokeCenterButtonProps) {
   const { buttonVariants, controls, showText, setShowText } =
     usePokeCenterButtonHelper(animationTime);
 
@@ -45,4 +45,4 @@ export const PokeCenterButton: React.FC<PokeCenterButtonProps> = ({
       </Link>
     </motion.div>
   );
-};
+}

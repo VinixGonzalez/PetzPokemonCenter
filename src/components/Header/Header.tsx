@@ -1,5 +1,5 @@
 import React from "react";
-import { PokeCenterButton } from "../PokeCenterButton/PokeCenterButton";
+import PokeCenterButton from "../PokeCenterButton/PokeCenterButton";
 import MobileDrawer from "../Drawer/MobileDrawer";
 import Link from "next/link";
 

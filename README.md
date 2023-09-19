@@ -22,20 +22,24 @@ npm run dev
 
 ## 🚀 Algumas tecnologias utilizadas
 
-Next.js (com app folder): Otimizado para produção, facilita a criação de aplicações React com Server-Side Rendering (SSR) e rotas baseadas em sistema de arquivos.
+• Next.js (com app folder): Otimizado para produção, facilita a criação de aplicações React com Server-Side Rendering (SSR) e rotas baseadas em sistema de arquivos.
 
-TypeScript: Superconjunto tipado de JavaScript que adiciona tipos estáticos, aumentando a robustez e a previsibilidade do código.
+• TypeScript: Superconjunto tipado de JavaScript que adiciona tipos estáticos, aumentando a robustez e a previsibilidade do código.
 
-TailwindCSS: Um framework CSS de baixo nível que permite criar designs personalizados rapidamente e com eficiência, proporcionando um design responsivo de alta qualidade.
+• TailwindCSS: Um framework CSS de baixo nível que permite criar designs personalizados rapidamente e com eficiência, proporcionando um design responsivo de alta qualidade.
 
-Jest & React-Testing-Library: Ferramentas poderosas para escrever e executar testes unitários, garantindo a confiabilidade do aplicativo.
+• Jest & React-Testing-Library: Ferramentas poderosas para escrever e executar testes unitários, garantindo a confiabilidade do aplicativo.
 
-Chakra UI: Uma biblioteca de componentes para React que facilita a criação de interfaces acessíveis e com design consistente.
+• Chakra UI: Uma biblioteca de componentes para React que facilita a criação de interfaces acessíveis e com design consistente.
 
-Zustand & Zod: Bibliotecas para gerenciamento de estado e validação, respectivamente.
+• Zustand & Zod: Bibliotecas para gerenciamento de estado e validação, respectivamente.
 
-React-Hook-Form: Uma biblioteca para trabalhar com formuários de forma eficiente.
+• React-Hook-Form: Uma biblioteca para trabalhar com formuários de forma eficiente.
+
+---
 
 Vinícius Gonzalez
+
 [LinkedIn](https://www.linkedin.com/in/vinicius-gonzalez-84b60a152/).
+
 email: vinix74@hotmail.com

@@ -8,7 +8,7 @@ export default function Footer() {
     >
       <p className="text-white text-xs sm:text-sm font-normal text-center sm:text-left">
         Todas as marcas e ilustrações utilizadas
-        <br className="sm:hidden" /> são de seus resepctivos donos.
+        <br className="sm:hidden" /> são de seus respectivos donos.
       </p>
     </footer>
   );

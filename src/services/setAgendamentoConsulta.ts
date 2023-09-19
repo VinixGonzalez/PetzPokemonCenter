@@ -1,7 +1,7 @@
 import {
   AgendamentoConsultaProps,
   AgendamentoStatusType,
-} from "@/store/agendarConsultaStore";
+} from "@/store/agendarConsultaStore/agendarConsultaStore";
 
 interface CreateAgendamentoConsultaResponse {
   agendamentoStatus: AgendamentoStatusType;

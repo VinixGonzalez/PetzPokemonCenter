@@ -5,7 +5,9 @@ interface GetPokeRegioesResponse {
 
 export const getPokeRegioes = async () => {
   try {
-    const res = await fetch("https://pokeapi.co/api/v2/region/");
+    const res = await fetch("https://pokeapi.co/api/v2/region/", {
+      next: { revalidate: 3600 },
+    });
 
     if (!res.ok) {
       const statusText = res.statusText || "Erro desconhecido";

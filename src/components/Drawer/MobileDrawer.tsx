@@ -23,7 +23,12 @@ export default function MobileDrawer() {
 
   return (
     <>
-      <Button ref={btnRef} onClick={onOpen}>
+      <Button
+        data-testid="HamburgerMenu"
+        ref={btnRef}
+        onClick={onOpen}
+        role="button"
+      >
         <Icon as={HamburgerIcon} color={"red.500"} fontSize={28} />
       </Button>
       <Drawer
@@ -32,7 +37,7 @@ export default function MobileDrawer() {
         onClose={onClose}
         finalFocusRef={btnRef}
       >
-        <DrawerOverlay />
+        <DrawerOverlay data-testid="DrawerOverlay" />
         <DrawerContent className="bg-customRed text-white">
           <DrawerCloseButton />
           <DrawerHeader>Centro Pokémon</DrawerHeader>

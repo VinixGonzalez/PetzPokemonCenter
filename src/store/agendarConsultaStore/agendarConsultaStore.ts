@@ -4,7 +4,10 @@ import { getPokeCidades } from "@/services/getPokeCidades";
 import { getPokeRegioes } from "@/services/getPokeRegioes";
 import { getPokemonsList } from "@/services/getPokemonsList";
 import { setAgendamentoConsulta } from "@/services/setAgendamentoConsulta";
-import { upperCaseFirstLetterHelper } from "@/utils/utils";
+import {
+  getRandomLevelHelper,
+  upperCaseFirstLetterHelper,
+} from "@/utils/utils";
 import { create } from "zustand";
 
 interface Regiao {
@@ -18,9 +21,10 @@ interface Cidade {
   value: string;
 }
 
-interface Pokemon {
+export interface Pokemon {
   name: string;
   url: string;
+  level: number;
 }
 
 export interface AgendamentoConsultaProps {
@@ -90,7 +94,11 @@ export const useAgendarConsultaStore = create<AgendarConsultaStoreState>(
     pokemons: [],
     getPokemons: async () => {
       const pokemonsList = await getPokemonsList();
-      set({ pokemons: pokemonsList.results });
+      const pokemonsWithLevelList = pokemonsList.results.map((poke) => ({
+        ...poke,
+        level: getRandomLevelHelper(0, 100),
+      }));
+      set({ pokemons: pokemonsWithLevelList });
     },
     datasAtendimento: [],
     getDatasAtendimento: async () => {

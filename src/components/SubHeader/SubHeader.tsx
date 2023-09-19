@@ -1,5 +1,5 @@
 import React from "react";
-import { Crumb, CustomBreadcrumb } from "../CustomBreadcrumb/CustomBreadcrumb";
+import CustomBreadcrumb, { Crumb } from "../CustomBreadcrumb/CustomBreadcrumb";
 
 type CrumbList = Array<Crumb>;
 

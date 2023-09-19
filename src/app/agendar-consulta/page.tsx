@@ -1,4 +1,4 @@
-import AgendarConsultaForm from "@/components/Forms/AgendarConsulaForm/AgendarConsultaForm";
+import AgendarConsultaForm from "@/components/Forms/AgendarConsultaForm/AgendarConsultaForm";
 import SubHeader from "@/components/SubHeader/SubHeader";
 import React from "react";
 

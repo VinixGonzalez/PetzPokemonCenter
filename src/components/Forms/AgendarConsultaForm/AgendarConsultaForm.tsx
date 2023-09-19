@@ -1,144 +1,37 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Input, Select } from "@chakra-ui/react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { FieldErrors, useForm } from "react-hook-form";
-import { useAgendarConsultaStore } from "@/store/agendarConsultaStore";
 import { motion } from "framer-motion";
 import { real, upperCaseFirstLetterHelper } from "@/utils/utils";
-import { v4 as uuid } from "uuid";
-import { toast } from "react-toastify";
-import { setAgendamentoConsulta } from "@/services/setAgendamentoConsulta";
-import { useRouter } from "next/navigation";
 
-type CustomErrors = FieldErrors<
-  AgendarConsultaFormSchemaType & { [key: string]: string }
->;
-
-const agendarConsultaSchema = z.object({
-  nome: z
-    .string()
-    .nonempty("O nome é obrigatório.")
-    .min(3, "O nome deve ter no mínimo 3 caracteres.")
-    .max(30, "O nome deve ter no máximo 30 caracteres."),
-  sobrenome: z
-    .string()
-    .nonempty("O sobrenome é obrigatório.")
-    .min(3, "O sobrenome deve ter no mínimo 3 caracteres.")
-    .max(50, "O sobrenome deve ter no máximo 50 caracteres."),
-  regiao: z.string().nonempty("A região é obrigatória."),
-  cidade: z
-    .string({ required_error: "A cidade é obrigatória." })
-    .nonempty("A cidade é obrigatória."),
-  datasAtendimento: z.string().nonempty("Selecione uma data de atendimento."),
-  horariosAtendimento: z
-    .string({ required_error: "Selecione um horário de atendimento." })
-    .nonempty("Selecione um horário de atendimento."),
-});
-
-type AgendarConsultaFormSchemaType = z.infer<typeof agendarConsultaSchema>;
+import { useAgendarConsultaFormHelper } from "./AgendarConsultaForm.helper";
 
 export default function AgendarConsultaForm() {
-  const router = useRouter();
-  const {
-    getRegioes,
-    regioes,
-    getCidades,
-    cidades,
-    getPokemons,
-    pokemons,
-    getDatasAtendimento,
-    datasAtendimento,
-    getHorariosAtendimento,
-    horariosAtendimento,
-
-    setAgendamento,
-  } = useAgendarConsultaStore();
-
-  const [pokeFields, setPokeFields] = useState<string[]>([]);
-
-  const handleSubmitForm = async (form: AgendarConsultaFormSchemaType) => {
-    const pokeList = Object.entries(form)
-      .filter(([key]) => key.startsWith("poke-fieldId-"))
-      .map(([, value]) => value);
-    const payload = { ...form, pokeList };
-
-    const res = await setAgendamento(payload);
-
-    if (res === "error") {
-      router.push("/agendar-consulta/erro-agendamento");
-      return;
-    }
-
-    router.push("/agendar-consulta/sucesso-agendamento");
-  };
-
-  const handleAddPokeField = () => {
-    if (pokeFields.length >= 6) {
-      return;
-    }
-
-    const newFieldUUID = `poke-fieldId-${uuid()}`;
-
-    setPokeFields((fields) => [...fields, newFieldUUID]);
-  };
-
-  const getCurrentSchema = () => {
-    let dynamicSchema: { [key: string]: any } = {};
-    pokeFields.forEach((field, index) => {
-      dynamicSchema[field] = z.string().nonempty(`Selecione seu Pokémon.`);
-    });
-
-    return agendarConsultaSchema.augment(dynamicSchema);
-  };
-
   const {
     register,
-    setError,
     handleSubmit,
-    formState: { errors, dirtyFields, isValid },
-    trigger,
-    watch,
-  } = useForm<AgendarConsultaFormSchemaType & { [key: string]: any }>({
-    resolver: zodResolver(getCurrentSchema()),
-  });
-
-  const selectedRegion = watch("regiao");
-  const selectedDatasAtendimento = watch("datasAtendimento");
-  const customErrors: CustomErrors = errors;
-
-  const handleRemovePoke = (field: string) => {
-    setPokeFields((prevFields) => prevFields.filter((f) => f !== field));
-    toast.success("Pokémon removido", { autoClose: 1000 });
-  };
-
-  useEffect(() => {
-    getRegioes();
-    getPokemons();
-    getDatasAtendimento();
-  }, []);
-
-  useEffect(() => {
-    if (!selectedRegion) return;
-
-    console.log("Buscando cidades...");
-
-    getCidades(selectedRegion);
-  }, [getCidades, selectedRegion]);
-
-  useEffect(() => {
-    if (!selectedDatasAtendimento) return;
-
-    console.log("Buscando horarios...");
-
-    getHorariosAtendimento(selectedDatasAtendimento);
-  }, [getHorariosAtendimento, selectedDatasAtendimento]);
+    handleSubmitForm,
+    handleAddPokeField,
+    handleRemovePoke,
+    calcularTaxaGeracional,
+    calcularValorTotal,
+    errors,
+    regioes,
+    cidades,
+    pokeFields,
+    pokemons,
+    customErrors,
+    datasAtendimento,
+    horariosAtendimento,
+    VALOR_UNITARIO,
+  } = useAgendarConsultaFormHelper();
 
   return (
-    <form onSubmit={handleSubmit(handleSubmitForm)}>
+    <form
+      onSubmit={handleSubmit(handleSubmitForm)}
+      data-testid="FormAgendarConsulta"
+    >
       <section id="user-info" className="mb-9">
         <div className="flex flex-col sm:flex-row gap-4 mb-6">
           <div className="flex flex-col w-full gap-2">
@@ -182,12 +75,13 @@ export default function AgendarConsultaForm() {
               Região
             </label>
             <Select
+              disabled={regioes.length <= 0}
               id="regiao"
               placeholder="Selecione sua região"
               {...register("regiao")}
             >
               {regioes.map((regiao) => (
-                <option key={regiao.value} value={regiao.id ?? regiao.value}>
+                <option key={regiao.value} value={regiao.id as string}>
                   {regiao.label}
                 </option>
               ))}
@@ -203,7 +97,7 @@ export default function AgendarConsultaForm() {
               Cidade
             </label>
             <Select
-              disabled={!selectedRegion}
+              disabled={cidades.length <= 0}
               id="cidade"
               placeholder="Selecione sua cidade"
               {...register("cidade")}
@@ -223,25 +117,24 @@ export default function AgendarConsultaForm() {
         </div>
       </section>
       <section id="team-info" className="mb-9">
-        <div className="flex items-end justify-between mb-3">
+        <div className="flex items-start sm:items-end justify-between mb-3 text-xs flex-col sm:flex-row">
           <div className="space-y-1">
-            <p className="text-xs font-bold">Cadastre seu time</p>
-            <p className="text-xs font-medium">
-              Atendemos até 06 pokémons por vez
-            </p>
+            <p className="font-bold">Cadastre seu time</p>
+            <p className="font-medium">Atendemos até 06 pokémons por vez</p>
           </div>
 
-          <div id="pokemons">
-            <small className="text-xs font-bold">
+          <div id="pokemons" className="mt-2 sm:mt-0">
+            <small className="font-bold text-xs">
               Pokémons: {pokeFields.length}/6
             </small>
           </div>
         </div>
 
         <motion.button
+          data-testid="AddPokeBtn"
           disabled={pokeFields.length >= 6}
           type="button"
-          className="mb-6 flex border border-[#1D1D1D] disabled:border-gray-400 rounded-full disabled:cursor-not-allowed disabled:text-gray-400 p-3 items-center gap-3 hover:bg-customRed hover:text-white disabled:hover:bg-gray-200 hover:border-transparent"
+          className="w-full sm:w-fit mb-6 flex border border-[#1D1D1D] disabled:border-gray-400 rounded-full disabled:cursor-not-allowed disabled:text-gray-400 p-3 items-center justify-evenly gap-3 hover:bg-customRed hover:text-white disabled:hover:bg-gray-200 hover:border-transparent"
           onClick={handleAddPokeField}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.9 }}
@@ -250,12 +143,12 @@ export default function AgendarConsultaForm() {
           <span className="text-xs font-bold">
             Adicionar novo pokémon ao time...
           </span>
-          <span>+</span>
+          <span className="text-lg font-bold">+</span>
         </motion.button>
 
         {pokeFields.map((field, index) => (
-          <div key={index} className="flex flex-col mb-6">
-            <div className="flex items-center">
+          <div key={field} className="flex flex-col mb-6">
+            <div className="flex items-start sm:items-center flex-col sm:flex-row gap-1 sm:gap-0">
               <div className="w-1/3">
                 <label
                   htmlFor={`${field}${index + 1}`}
@@ -272,18 +165,26 @@ export default function AgendarConsultaForm() {
                   {...register(field)}
                 >
                   {pokemons.map((pokemon) => (
-                    <option key={pokemon.name} value={pokemon.name}>
-                      {upperCaseFirstLetterHelper(pokemon.name)}
+                    <option
+                      key={pokemon.name}
+                      value={`${pokemon.name} (lvl: ${pokemon.level})`}
+                    >
+                      {upperCaseFirstLetterHelper(pokemon.name)} - (lvl:{" "}
+                      {pokemon.level})
                     </option>
                   ))}
                 </Select>
-                <button type="button" onClick={() => handleRemovePoke(field)}>
+                <button
+                  data-testid="RemovePokeBtn"
+                  type="button"
+                  onClick={() => handleRemovePoke(field)}
+                >
                   ❌
                 </button>
               </div>
             </div>
             {customErrors[field] && errors[field]?.message && (
-              <div className="flex items-center justify-end">
+              <div className="flex items-center justify-start mt-2 sm:mt-0">
                 <p className="text-red-600 text-xs sm:text-sm">
                   {errors[field]?.message as string}
                 </p>
@@ -301,6 +202,7 @@ export default function AgendarConsultaForm() {
             Data para Atendimento
           </label>
           <Select
+            disabled={datasAtendimento.length <= 0}
             id="datasAtendimento"
             placeholder="Selecione uma data"
             {...register("datasAtendimento")}
@@ -322,7 +224,7 @@ export default function AgendarConsultaForm() {
             Horário de Atendimento
           </label>
           <Select
-            disabled={!selectedDatasAtendimento}
+            disabled={horariosAtendimento.length <= 0}
             id="horariosAtendimento"
             className=""
             placeholder="Selecione um horário"
@@ -343,39 +245,50 @@ export default function AgendarConsultaForm() {
       </section>
       <hr className="my-6" />
       <section id="resume-info" className="text-sm font-normal text-[#747474]">
-        <div className="space-y-1">
-          <div className="flex items-center justify-between">
+        <div className="space-y-3 sm:space-y-1">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-1 sm:gap-0">
             <p>Número de pokémons a serem atendidos:</p>
-            <p>0{pokeFields.length}</p>
+            <p className="text-lg sm:text-sm">0{pokeFields.length}</p>
           </div>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-1 sm:gap-0">
             <p>Atendimento unitário por pokémon:</p>
-            <p>{real.format(70)}</p>
+            <p className="text-lg sm:text-sm">{real.format(VALOR_UNITARIO)}</p>
           </div>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-1 sm:gap-0">
             <p>Subtotal:</p>
-            <p>{real.format(pokeFields.length * 70)}</p>
+            <p className="text-lg sm:text-sm">
+              {real.format(pokeFields.length * VALOR_UNITARIO)}
+            </p>
           </div>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-1 sm:gap-0">
             <p>Taxa geracional*:</p>
-            <p>{real.format(2.1)}</p>
+            <p className="text-lg sm:text-sm">
+              {real.format(
+                calcularTaxaGeracional() * (pokeFields.length * VALOR_UNITARIO)
+              )}
+            </p>
           </div>
-          <small className="text-[0.5rem]">
-            *adicionamos uma taxa de 3%, multiplicado pelo número da geração
-            mais alta do time, com limite de até 30%
-          </small>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-1 sm:gap-0">
+            <small className="text-xs sm:text-[0.5rem]">
+              *adicionamos uma taxa de 3%, multiplicado pelo level mais alto dos
+              Pokémons do time, com limite de até 30%
+            </small>
+          </div>
         </div>
 
-        <div className="flex items-center justify-between mt-8">
+        <div className="flex flex-col sm:flex-row items-center justify-between mt-6 gap-2">
           <p className="text-2xl font-semibold text-[#1d1d1d]">
-            Valor Total: {real.format(pokeFields.length * 70 + 2.1)}
+            Valor Total: {real.format(calcularValorTotal(pokeFields.length))}
           </p>
-          <button
+          <motion.button
             type="submit"
-            className="p-3 bg-customRed text-white text-sm font-bold rounded-full"
+            className="p-3 bg-customRed text-white text-sm font-bold rounded-full w-full sm:w-fit"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.99 }}
+            transition={{ type: "spring", stiffness: 400, damping: 20 }}
           >
             Concluir Agendamento
-          </button>
+          </motion.button>
         </div>
       </section>
     </form>

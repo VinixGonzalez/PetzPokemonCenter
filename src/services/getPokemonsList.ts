@@ -1,12 +1,15 @@
+import { Pokemon } from "@/store/agendarConsultaStore/agendarConsultaStore";
+
 interface GetPokemonsListResponse {
   count: number;
-  results: Array<{ name: string; url: string }>;
+  results: Array<Pokemon>;
 }
 
 export const getPokemonsList = async () => {
   try {
     const res = await fetch(
-      `https://pokeapi.co/api/v2/pokemon/?offset=0&limit=151`
+      `https://pokeapi.co/api/v2/pokemon/?offset=0&limit=151`,
+      { next: { revalidate: 3600 } }
     );
 
     if (!res.ok) {

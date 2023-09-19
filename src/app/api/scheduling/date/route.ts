@@ -20,5 +20,5 @@ export async function GET() {
     dateStringArray.push(date.toLocaleDateString());
   });
 
-  return NextResponse.json({ dateStringArray });
+  return NextResponse.json({ dateStringArray }, { status: 200 });
 }

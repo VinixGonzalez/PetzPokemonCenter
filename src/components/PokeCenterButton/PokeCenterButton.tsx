@@ -32,11 +32,15 @@ export const PokeCenterButton: React.FC<PokeCenterButtonProps> = ({
         setShowText(false);
         controls.start("afterTimeout");
       }}
-      className={`bg-customRed flex items-center rounded-full pl-3`}
+      className={`bg-customRed flex items-center rounded-full pl-3 group`}
       layout
     >
       <Link href={"/"} className="flex items-center space-x-2">
-        <Image src={whitePokeball} alt="white pokeball icon" />
+        <Image
+          src={whitePokeball}
+          alt="white pokeball icon"
+          className="group-hover:animate-spin"
+        />
         {showText && <p className={`whitespace-nowrap text-white`}>{text}</p>}
       </Link>
     </motion.div>

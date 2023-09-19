@@ -17,7 +17,7 @@ interface BreadcrumbProps {
   crumbList: Array<Crumb>;
 }
 
-export const CustomBreadcrumb: React.FC<BreadcrumbProps> = ({ crumbList }) => {
+export default function CustomBreadcrumb({ crumbList }: BreadcrumbProps) {
   return (
     <ChakraBreadCrumb className="text-xs text-white" separator=">">
       <BreadcrumbItem>
@@ -42,4 +42,4 @@ export const CustomBreadcrumb: React.FC<BreadcrumbProps> = ({ crumbList }) => {
       ))}
     </ChakraBreadCrumb>
   );
-};
+}
